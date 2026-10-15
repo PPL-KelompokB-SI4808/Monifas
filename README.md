@@ -4,8 +4,6 @@
 
 MONIFAS adalah aplikasi web untuk melaporkan, memantau, dan menangani kerusakan fasilitas infrastruktur (gedung, ruangan, dan aset di dalamnya). Pengguna dapat membuat laporan kerusakan beserta bukti, lalu petugas menindaklanjuti lewat penugasan, penjadwalan, dan pencatatan perbaikan.
 
-Aplikasi ini adalah **Laravel server-rendered monolith**: tidak ada API layer, SPA, atau WebSocket.
-
 ## Tech Stack
 
 | Aspek | Teknologi |
