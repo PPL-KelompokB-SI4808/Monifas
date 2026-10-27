@@ -1,6 +1,6 @@
 # SOP Pengerjaan Modul MONIFAS
 
-Dokumen ini wajib dibaca setiap anggota sebelum mengerjakan modul. Aturan teknis lengkap ada di [AGENTS.md](AGENTS.md) dan spec di `.kiro/specs/monifas-base-project/`.
+Dokumen ini wajib dibaca setiap anggota sebelum mengerjakan modul. Aturan teknis lengkap ada di [AGENTS.md](AGENTS.md)
 
 ## 1. Pembagian Modul
 
@@ -150,7 +150,7 @@ Aturan penamaan namespace: `<modul>-<submodul>` dalam kebab-case. Tambahkan regi
 
 Urutan yang disarankan:
 
-1. **Baca spec**: requirements, design, dan tasks untuk submodul terkait di `.kiro/specs/monifas-base-project/`.
+1. **Baca spec**: requirements, design, dan tasks untuk submodul.
 2. **Database**: buat migration, Model (`app/Models/`), Factory, dan Seeder bila perlu.
 3. **Enum/DTO**: tentukan nilai tetap dan struktur data.
 4. **Form Request**: buat `Store...Request` dan `Update...Request`.
