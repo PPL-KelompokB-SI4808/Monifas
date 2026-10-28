@@ -5,6 +5,12 @@
             <a href="#cakupan" class="hover:text-foreground">Fasilitas</a>
             <a href="#alur" class="hover:text-foreground">Cara kerja</a>
         </nav>
-        <x-ui.button href="#">Masuk</x-ui.button>
+        <div class="flex items-center gap-2">
+            @auth
+                <x-ui.button href="{{ route('dashboard') }}">Dashboard</x-ui.button>
+            @else
+                <x-ui.button href="{{ route('login') }}">Masuk</x-ui.button>
+            @endauth
+        </div>
     </div>
 </header>
