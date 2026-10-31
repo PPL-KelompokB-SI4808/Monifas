@@ -49,6 +49,11 @@ class AppServiceProvider extends ServiceProvider
             'users-and-access-roles'
         );
 
+        Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/supporting/announcements/components'),
+            'supporting-announcements'
+        );
+
         foreach ($modules as $module => $submodules) {
             foreach ($submodules as $submodule) {
                 $componentsPath = resource_path("views/pages/dashboard/{$module}/{$submodule}/components");
