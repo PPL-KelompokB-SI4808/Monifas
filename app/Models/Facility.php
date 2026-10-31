@@ -12,39 +12,37 @@ class Facility extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'code',
+        'name',
         'location_id',
         'building_id',
         'room_id',
-        'facility_category_id',
-        'code',
-        'name',
-        'specifications',
+        'category_id',
         'condition',
-        'is_active',
+        'description',
     ];
 
     protected $casts = [
         'condition' => FacilityCondition::class,
-        'is_active' => 'boolean',
     ];
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(\App\Models\Location::class);
     }
 
     public function building()
     {
-        return $this->belongsTo(Building::class);
+        return $this->belongsTo(\App\Models\Building::class);
     }
 
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsTo(\App\Models\Room::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(FacilityCategory::class, 'facility_category_id');
+        return $this->belongsTo(\App\Models\Category::class);
     }
 }
