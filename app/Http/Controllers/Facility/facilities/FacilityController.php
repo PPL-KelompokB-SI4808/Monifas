@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Facility\Facilities;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Facility\Facilities\StoreFacilityRequest;
 use App\Http\Requests\Facility\Facilities\UpdateFacilityRequest;
-use App\Models\Facility;
 use App\Models\Building;
-use App\Models\Location;
+use App\Models\Facility;
 use App\Models\FacilityCategory;
+use App\Models\Location;
 use App\Services\Facility\Facilities\FacilityService;
 use Illuminate\Http\Request;
 
@@ -26,7 +26,7 @@ class FacilityController extends Controller
         $facilities = $this->facilityService->getFilteredFacilities($request);
         $buildings = Building::all();
 
-        return view('modules.facility.facilities.index', compact('facilities', 'buildings'));
+        return view('pages.dashboard.facility.facilities.index', compact('facilities', 'buildings'));
     }
 
     public function create()
@@ -34,8 +34,8 @@ class FacilityController extends Controller
         $locations = Location::all();
         $buildings = Building::all();
         $categories = FacilityCategory::all();
-        
-        return view('modules.facility.facilities.create', compact('locations', 'buildings', 'categories'));
+
+        return view('pages.dashboard.facility.facilities.create', compact('locations', 'buildings', 'categories'));
     }
 
     public function store(StoreFacilityRequest $request)
@@ -43,7 +43,7 @@ class FacilityController extends Controller
         $this->facilityService->createFacility($request->validated());
 
         return redirect()->route('facility.facilities.index')
-                         ->with('success', 'Fasilitas berhasil ditambahkan.');
+            ->with('success', 'Fasilitas berhasil ditambahkan.');
     }
 
     public function edit(Facility $facility)
@@ -52,7 +52,7 @@ class FacilityController extends Controller
         $buildings = Building::all();
         $categories = FacilityCategory::all();
 
-        return view('modules.facility.facilities.edit', compact('facility', 'locations', 'buildings', 'categories'));
+        return view('pages.dashboard.facility.facilities.edit', compact('facility', 'locations', 'buildings', 'categories'));
     }
 
     public function update(UpdateFacilityRequest $request, Facility $facility)
@@ -60,7 +60,7 @@ class FacilityController extends Controller
         $this->facilityService->updateFacility($facility, $request->validated());
 
         return redirect()->route('facility.facilities.index')
-                         ->with('success', 'Fasilitas berhasil diperbarui.');
+            ->with('success', 'Fasilitas berhasil diperbarui.');
     }
 
     public function destroy(Facility $facility)
@@ -68,6 +68,6 @@ class FacilityController extends Controller
         $this->facilityService->deleteFacility($facility);
 
         return redirect()->route('facility.facilities.index')
-                         ->with('success', 'Fasilitas berhasil dihapus.');
+            ->with('success', 'Fasilitas berhasil dihapus.');
     }
 }

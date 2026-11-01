@@ -1,14 +1,43 @@
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-    <div class="p-4 bg-white dark:bg-zinc-800 shadow rounded-lg border border-zinc-200 dark:border-zinc-700">
-        <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Gedung</p>
-        <p class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{{ \App\Models\Building::count() }}</p>
+    <!-- Card 1: Total Gedung -->
+    <div class="rounded-xl border border-border bg-card p-5 shadow-xs transition hover:shadow-md">
+        <div class="flex items-start justify-between">
+            <span class="text-xs font-medium text-muted-foreground">Total Gedung</span>
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/20">
+                <x-lucide-building-2 class="h-4 w-4" />
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{{ \App\Models\Building::count() }}</div>
+        </div>
+        <p class="mt-2 text-[11px] text-muted-foreground">Seluruh gedung terdaftar di sistem</p>
     </div>
-    <div class="p-4 bg-white dark:bg-zinc-800 shadow rounded-lg border border-zinc-200 dark:border-zinc-700">
-        <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Gedung Aktif</p>
-        <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ \App\Models\Building::where('is_active', true)->count() }}</p>
+
+    <!-- Card 2: Gedung Aktif -->
+    <div class="rounded-xl border border-border bg-card p-5 shadow-xs transition hover:shadow-md">
+        <div class="flex items-start justify-between">
+            <span class="text-xs font-medium text-muted-foreground">Gedung Aktif</span>
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <x-lucide-check-circle-2 class="h-4 w-4" />
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{{ \App\Models\Building::where('is_active', true)->count() }}</div>
+        </div>
+        <p class="mt-2 text-[11px] text-emerald-600 dark:text-emerald-400">Siap digunakan operasional</p>
     </div>
-    <div class="p-4 bg-white dark:bg-zinc-800 shadow rounded-lg border border-zinc-200 dark:border-zinc-700">
-        <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Lantai</p>
-        <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ \App\Models\Building::sum('total_floors') }}</p>
+
+    <!-- Card 3: Total Lantai -->
+    <div class="rounded-xl border border-border bg-card p-5 shadow-xs transition hover:shadow-md">
+        <div class="flex items-start justify-between">
+            <span class="text-xs font-medium text-muted-foreground">Total Lantai</span>
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                <x-lucide-layers class="h-4 w-4" />
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{{ \App\Models\Building::sum('total_floors') }}</div>
+        </div>
+        <p class="mt-2 text-[11px] text-muted-foreground">Akumulasi lantai seluruh gedung</p>
     </div>
 </div>

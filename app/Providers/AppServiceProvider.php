@@ -55,12 +55,18 @@ class AppServiceProvider extends ServiceProvider
             'supporting-announcements'
         );
 
+        Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/facility/buildings/components'),
+            'facility-buildings'
+        );
+
         foreach ($modules as $module => $submodules) {
             foreach ($submodules as $submodule) {
                 $componentsPath = resource_path("views/pages/dashboard/{$module}/{$submodule}/components");
 
-                // Mendaftarkan namespace dengan format kebab-case: <modul>-<submodul> (contoh: facility-buildings)
+                // Mendaftarkan namespace dengan format kebab-case: <modul>-<submodul> dan short name <submodul>
                 Blade::anonymousComponentPath($componentsPath, "{$module}-{$submodule}");
+                Blade::anonymousComponentPath($componentsPath, $submodule);
             }
         }
     }

@@ -1,47 +1,35 @@
 <?php
 
-namespace Tests\Feature\Facility\Buildings;
+namespace App\Http\Requests\Facility\Buildings;
 
-use App\Models\Location;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use App\Enums\UserRole;
+use Illuminate\Foundation\Http\FormRequest;
 
-class BuildingCrudTest extends TestCase
+class StoreBuildingRequest extends FormRequest
 {
-    use RefreshDatabase;
-
-    public function test_admin_can_view_buildings_index()
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
     {
-        $admin = User::factory()->create();
-
-        $this->actingAs($admin)
-             ->get(route('facility.buildings.index'))
-             ->assertStatus(200);
+        return $this->user()?->hasRole(UserRole::Admin) ?? false;
     }
 
-    public function test_admin_can_create_building()
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function rules(): array
     {
-        $admin = User::factory()->create();
-        
-        $location = Location::create([
-            'code' => 'LOC-01',
-            'name' => 'Lokasi Utama',
-        ]);
-
-        $response = $this->actingAs($admin)
-             ->post(route('facility.buildings.store'), [
-                 'location_id' => $location->id,
-                 'code' => 'BLD-01',
-                 'name' => 'Gedung Utama',
-                 'total_floors' => 5,
-                 'is_active' => true,
-             ]);
-
-        // Mencetak error sesi/validasi ke terminal jika pengujian gagal
-        $response->dumpSession();
-
-        $response->assertRedirect(route('facility.buildings.index'));
-        $this->assertDatabaseHas('buildings', ['code' => 'BLD-01']);
+        return [
+            'location_id' => ['required', 'exists:locations,id'],
+            'area_zone_id' => ['nullable', 'exists:area_zones,id'],
+            'code' => ['required', 'string', 'max:30', 'unique:buildings,code'],
+            'name' => ['required', 'string', 'max:150'],
+            'total_floors' => ['required', 'integer', 'min:1'],
+            'description' => ['nullable', 'string'],
+            'is_active' => ['boolean'],
+        ];
     }
 }

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Enums;
 
@@ -11,7 +11,7 @@ enum FacilityCondition: string
 
     public function label(): string
     {
-        return match(\) {
+        return match ($this) {
             self::Good => 'Baik',
             self::MinorDamage => 'Rusak Ringan',
             self::MajorDamage => 'Rusak Berat',

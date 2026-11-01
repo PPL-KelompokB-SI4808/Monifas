@@ -1,43 +1,105 @@
-<x-layouts.app>
-    <div class="max-w-2xl mx-auto space-y-6 bg-white dark:bg-zinc-800 p-6 rounded-lg shadow border border-zinc-200 dark:border-zinc-700">
-        <div class="flex items-center justify-between border-b pb-4 border-zinc-200 dark:border-zinc-700">
-            <h1 class="text-xl font-bold text-zinc-900 dark:text-zinc-100">Detail Gedung: {{ $building->name }}</h1>
-            <a href="{{ route('facility.buildings.index') }}" class="px-3 py-1.5 bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-md text-sm font-medium">Kembali</a>
+<x-layouts.dashboard title="Detail Gedung">
+    <div class="max-w-3xl mx-auto space-y-6">
+        <!-- Page Header -->
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-3">
+                <a
+                    href="{{ route('facility.buildings.index') }}"
+                    class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+                >
+                    <x-lucide-arrow-left class="h-3.5 w-3.5" />
+                    <span>Kembali</span>
+                </a>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-foreground">{{ $building->name }}</h1>
+                    <p class="text-xs text-muted-foreground mt-0.5">Kode: {{ $building->code }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a
+                    href="{{ route('facility.buildings.edit', $building) }}"
+                    class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-xs font-medium text-primary-foreground shadow-2xs hover:bg-primary/90 transition-colors"
+                >
+                    <x-lucide-pencil class="h-3.5 w-3.5" />
+                    <span>Ubah Gedung</span>
+                </a>
+                <form
+                    action="{{ route('facility.buildings.destroy', $building) }}"
+                    method="POST"
+                    class="inline-block"
+                    onsubmit="return confirm('Yakin ingin menghapus atau menonaktifkan gedung ini?')"
+                >
+                    @csrf
+                    @method('DELETE')
+                    <button
+                        type="submit"
+                        class="inline-flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-3.5 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                    >
+                        <x-lucide-trash-2 class="h-3.5 w-3.5" />
+                        <span>Hapus</span>
+                    </button>
+                </form>
+            </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 text-sm text-zinc-700 dark:text-zinc-300">
-            <div>
-                <p class="font-medium text-zinc-500">Kode Gedung</p>
-                <p class="text-base font-semibold text-zinc-900 dark:text-zinc-100">{{ $building->code }}</p>
+        <!-- Detail Card -->
+        <div class="rounded-xl border border-border bg-background p-6 shadow-2xs space-y-6">
+            <div class="border-b border-border pb-3">
+                <h3 class="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <x-lucide-building-2 class="h-4 w-4 text-primary" />
+                    <span>Informasi Spesifikasi Gedung</span>
+                </h3>
             </div>
-            <div>
-                <p class="font-medium text-zinc-500">Nama Gedung</p>
-                <p class="text-base font-semibold text-zinc-900 dark:text-zinc-100">{{ $building->name }}</p>
-            </div>
-            <div>
-                <p class="font-medium text-zinc-500">Lokasi</p>
-                <p class="text-base font-semibold text-zinc-900 dark:text-zinc-100">{{ $building->location->name ?? '-' }}</p>
-            </div>
-            <div>
-                <p class="font-medium text-zinc-500">Zona Area</p>
-                <p class="text-base font-semibold text-zinc-900 dark:text-zinc-100">{{ $building->areaZone->name ?? '-' }}</p>
-            </div>
-            <div>
-                <p class="font-medium text-zinc-500">Total Lantai</p>
-                <p class="text-base font-semibold text-zinc-900 dark:text-zinc-100">{{ $building->total_floors }}</p>
-            </div>
-            <div>
-                <p class="font-medium text-zinc-500">Status</p>
-                <p class="text-base font-semibold">
-                    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $building->is_active ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' }}">
-                        {{ $building->is_active ? 'Aktif' : 'Nonaktif' }}
-                    </span>
-                </p>
-            </div>
-            <div class="col-span-2">
-                <p class="font-medium text-zinc-500">Deskripsi</p>
-                <p class="text-base text-zinc-900 dark:text-zinc-100">{{ $building->description ?? '-' }}</p>
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <span class="text-xs font-medium text-muted-foreground">Kode Gedung</span>
+                    <p class="mt-1 font-mono text-sm font-semibold text-primary">{{ $building->code }}</p>
+                </div>
+
+                <div>
+                    <span class="text-xs font-medium text-muted-foreground">Nama Gedung</span>
+                    <p class="mt-1 text-sm font-semibold text-foreground">{{ $building->name }}</p>
+                </div>
+
+                <div>
+                    <span class="text-xs font-medium text-muted-foreground">Lokasi Kawasan</span>
+                    <p class="mt-1 text-sm font-medium text-foreground">{{ $building->location->name ?? '-' }}</p>
+                </div>
+
+                <div>
+                    <span class="text-xs font-medium text-muted-foreground">Zona Area</span>
+                    <p class="mt-1 text-sm font-medium text-foreground">{{ $building->areaZone->name ?? '-' }}</p>
+                </div>
+
+                <div>
+                    <span class="text-xs font-medium text-muted-foreground">Total Lantai</span>
+                    <p class="mt-1 text-sm font-semibold text-foreground">{{ $building->total_floors }} Lantai</p>
+                </div>
+
+                <div>
+                    <span class="text-xs font-medium text-muted-foreground">Status Operasional</span>
+                    <div class="mt-1">
+                        @if ($building->is_active)
+                            <span class="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                <span>Aktif (Dapat Digunakan)</span>
+                            </span>
+                        @else
+                            <span class="inline-flex items-center gap-1.5 rounded-md border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-xs font-medium text-red-600 dark:text-red-400">
+                                <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>
+                                <span>Nonaktif</span>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <span class="text-xs font-medium text-muted-foreground">Deskripsi Gedung</span>
+                    <p class="mt-1 text-xs leading-relaxed text-foreground whitespace-pre-line">{{ $building->description ?: 'Tidak ada deskripsi gedung.' }}</p>
+                </div>
             </div>
         </div>
     </div>
-</x-layouts.app>
+</x-layouts.dashboard>
