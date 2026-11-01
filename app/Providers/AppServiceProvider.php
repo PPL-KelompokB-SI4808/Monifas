@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
             'supporting' => ['announcements', 'feedback', 'campaigns'],
         ];
 
+        // Pendaftaran dinamis komponen submodul sesuai standar namespace <modul>-<submodul>
         Blade::anonymousComponentPath(
             resource_path('views/pages/dashboard/users-and-access/users/components'),
             'users-and-access-users'
@@ -57,9 +58,9 @@ class AppServiceProvider extends ServiceProvider
         foreach ($modules as $module => $submodules) {
             foreach ($submodules as $submodule) {
                 $componentsPath = resource_path("views/pages/dashboard/{$module}/{$submodule}/components");
+
+                // Mendaftarkan namespace dengan format kebab-case: <modul>-<submodul> (contoh: facility-buildings)
                 Blade::anonymousComponentPath($componentsPath, "{$module}-{$submodule}");
-                Blade::anonymousComponentPath($componentsPath, "{$module}.{$submodule}");
-                Blade::anonymousComponentPath($componentsPath, $submodule);
             }
         }
     }
