@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Repair\materials\RepairMaterialController;
 use App\Http\Controllers\Repair\repairs\RepairController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,28 @@ Route::middleware(['auth'])
             ->name('update');
 
         Route::delete('/{repair}', [RepairController::class, 'destroy'])
+            ->name('destroy');
+    });
+
+Route::middleware(['auth'])
+    ->prefix('repair/materials')
+    ->name('repair.materials.')
+    ->group(function () {
+        Route::get('/{repair}', [RepairMaterialController::class, 'index'])
+            ->name('index');
+
+        Route::get('/{repair}/create', [RepairMaterialController::class, 'create'])
+            ->name('create');
+
+        Route::post('/', [RepairMaterialController::class, 'store'])
+            ->name('store');
+
+        Route::get('/item/{material}/edit', [RepairMaterialController::class, 'edit'])
+            ->name('edit');
+
+        Route::put('/item/{material}', [RepairMaterialController::class, 'update'])
+            ->name('update');
+
+        Route::delete('/item/{material}', [RepairMaterialController::class, 'destroy'])
             ->name('destroy');
     });
