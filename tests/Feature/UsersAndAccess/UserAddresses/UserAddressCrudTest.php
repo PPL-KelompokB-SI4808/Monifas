@@ -127,6 +127,30 @@ test('validasi gagal jika field yang wajib tidak diisi pada pembuatan alamat', f
     $response->assertSessionHasErrors(['user_id', 'label', 'address_detail']);
 });
 
+test('validasi nomor telepon dan kode pos gagal jika format bukan angka atau digit tidak sesuai', function () {
+    $response = $this->actingAs($this->admin)
+        ->post(route('users-and-access.user-addresses.store'), [
+            'user_id' => $this->regularUser->id,
+            'label' => 'Alamat Salah',
+            'address_detail' => 'Jl. Pengujian No. 12',
+            'contact_phone' => 'bukan-nomor-telepon-abc',
+            'postal_code' => '1234', // Kurang dari 5 digit
+        ]);
+
+    $response->assertSessionHasErrors(['contact_phone', 'postal_code']);
+
+    // Cek jika kode pos mengandung huruf
+    $response2 = $this->actingAs($this->admin)
+        ->post(route('users-and-access.user-addresses.store'), [
+            'user_id' => $this->regularUser->id,
+            'label' => 'Alamat Salah 2',
+            'address_detail' => 'Jl. Pengujian No. 13',
+            'postal_code' => '12A45',
+        ]);
+
+    $response2->assertSessionHasErrors(['postal_code']);
+});
+
 test('admin dapat melihat halaman edit alamat pengguna', function () {
     $address = UserAddress::factory()->create([
         'user_id' => $this->regularUser->id,

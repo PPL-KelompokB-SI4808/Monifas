@@ -25,8 +25,8 @@ class UserAddressFactory extends Factory
             'label' => fake()->randomElement(['Rumah', 'Kantor', 'Apartemen', 'Gudang']),
             'building_or_unit' => 'Gedung '.fake()->randomElement(['A', 'B', 'C']).' Lantai '.fake()->numberBetween(1, 5),
             'address_detail' => fake()->streetAddress().', '.fake()->city(),
-            'contact_phone' => fake()->phoneNumber(),
-            'postal_code' => fake()->postcode(),
+            'contact_phone' => '08'.fake()->numerify('##########'),
+            'postal_code' => fake()->numerify('#####'),
             'is_primary' => false,
         ];
     }

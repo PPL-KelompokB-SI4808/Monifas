@@ -109,11 +109,14 @@
                     Nomor Telepon Kontak
                 </label>
                 <input
-                    type="text"
+                    type="tel"
+                    inputmode="tel"
                     name="contact_phone"
                     id="contact_phone"
                     value="{{ old('contact_phone', $address?->contact_phone) }}"
                     placeholder="Contoh: 08123456789"
+                    pattern="[0-9+\-\s()]{8,20}"
+                    title="Nomor telepon harus berupa 8-20 karakter angka (opsional tanda +, -, atau spasi)"
                     class="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-ring"
                 />
                 @error('contact_phone')
@@ -128,8 +131,12 @@
                 </label>
                 <input
                     type="text"
+                    inputmode="numeric"
                     name="postal_code"
                     id="postal_code"
+                    maxlength="5"
+                    pattern="[0-9]{5}"
+                    title="Kode pos harus terdiri dari 5 digit angka"
                     value="{{ old('postal_code', $address?->postal_code) }}"
                     placeholder="Contoh: 15412"
                     class="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-ring"
@@ -181,3 +188,4 @@
         </button>
     </div>
 </form>
+
