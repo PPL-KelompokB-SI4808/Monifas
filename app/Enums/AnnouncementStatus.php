@@ -34,4 +34,3 @@ enum AnnouncementStatus: string
         return array_column(self::cases(), 'value');
     }
 }
-

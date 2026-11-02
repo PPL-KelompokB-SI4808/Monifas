@@ -92,4 +92,3 @@ class StoreAnnouncementRequest extends FormRequest
         return AnnouncementData::fromRequest($this);
     }
 }
-

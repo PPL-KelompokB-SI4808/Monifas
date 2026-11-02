@@ -198,6 +198,12 @@ $modules = [
                 'url' => route('users-and-access.user-addresses.index'),
                 'is_active' => request()->is('dashboard/users-and-access/user-addresses*'),
             ],
+            [
+                'title' => 'Notifications',
+                'slug' => 'notifications',
+                'url' => route('users-and-access.notifications.index'),
+                'is_active' => request()->is('dashboard/users-and-access/notifications*'),
+            ],
         ],
     ],
 ];

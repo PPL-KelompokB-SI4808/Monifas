@@ -196,4 +196,3 @@ class AnnouncementService
         return $requestedStatus ?? AnnouncementStatus::Draft;
     }
 }
-
