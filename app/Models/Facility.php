@@ -1,10 +1,11 @@
-﻿<?php
+<?php
 
 namespace App\Models;
 
 use App\Enums\FacilityCondition;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Facility extends Model
@@ -26,23 +27,23 @@ class Facility extends Model
         'condition' => FacilityCondition::class,
     ];
 
-    public function location()
+    public function location(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Location::class);
+        return $this->belongsTo(Location::class);
     }
 
-    public function building()
+    public function building(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Building::class);
+        return $this->belongsTo(Building::class);
     }
 
-    public function room()
+    public function room(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Room::class);
+        return $this->belongsTo(Room::class);
     }
 
-    public function category()
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

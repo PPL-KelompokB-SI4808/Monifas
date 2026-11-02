@@ -2,13 +2,17 @@
 
 namespace App\Http\Requests\Facility\Buildings;
 
+use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBuildingRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
-        return true; // Diubah sementara menjadi true agar lolos pengujian tanpa bentrok role admin
+        return $this->user()?->hasRole(UserRole::Admin) ?? false;
     }
 
     public function rules(): array

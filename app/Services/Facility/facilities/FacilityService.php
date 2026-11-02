@@ -12,7 +12,7 @@ class FacilityService
         return Facility::with(['location', 'building', 'room', 'category'])
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('code', 'like', "%{$search}%");
+                    ->orWhere('code', 'like', "%{$search}%");
             })
             ->when($request->condition, function ($query, $condition) {
                 $query->where('condition', $condition);

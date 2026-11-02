@@ -13,4 +13,3 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::resource('announcements', AnnouncementController::class);
     });
-

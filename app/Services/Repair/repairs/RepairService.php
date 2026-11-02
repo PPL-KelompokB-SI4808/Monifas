@@ -2,10 +2,10 @@
 
 namespace App\Services\Repair\repairs;
 
-use App\Models\Repair;
 use App\Models\Facility;
-use Illuminate\Support\Facades\DB;
+use App\Models\Repair;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class RepairService
 {
@@ -48,32 +48,26 @@ class RepairService
             ])
             ->when(
                 $filters['facility_id'] ?? null,
-                fn (Builder $query, $facilityId) =>
-                    $query->where('facility_id', $facilityId)
+                fn (Builder $query, $facilityId) => $query->where('facility_id', $facilityId)
             )
             ->when(
                 $filters['officer_id'] ?? null,
-                fn (Builder $query, $officerId) =>
-                    $query->where('officer_id', $officerId)
+                fn (Builder $query, $officerId) => $query->where('officer_id', $officerId)
             )
             ->when(
                 $filters['location_id'] ?? null,
-                fn (Builder $query, $locationId) =>
-                    $query->whereHas(
-                        'facility',
-                        fn (Builder $facilityQuery) =>
-                            $facilityQuery->where('location_id', $locationId)
-                    )
+                fn (Builder $query, $locationId) => $query->whereHas(
+                    'facility',
+                    fn (Builder $facilityQuery) => $facilityQuery->where('location_id', $locationId)
+                )
             )
             ->when(
                 $filters['started_from'] ?? null,
-                fn (Builder $query, $date) =>
-                    $query->whereDate('started_at', '>=', $date)
+                fn (Builder $query, $date) => $query->whereDate('started_at', '>=', $date)
             )
             ->when(
                 $filters['started_until'] ?? null,
-                fn (Builder $query, $date) =>
-                    $query->whereDate('started_at', '<=', $date)
+                fn (Builder $query, $date) => $query->whereDate('started_at', '<=', $date)
             )
             ->latest('started_at')
             ->paginate(15)

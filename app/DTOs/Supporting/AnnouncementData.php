@@ -88,4 +88,3 @@ readonly class AnnouncementData
         return $payload;
     }
 }
-

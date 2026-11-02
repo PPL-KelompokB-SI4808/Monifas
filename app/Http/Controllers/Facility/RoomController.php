@@ -15,13 +15,15 @@ class RoomController extends Controller
     public function index(): View
     {
         $rooms = Room::with('building')->latest()->paginate(10);
-        return view('facility.rooms.index', compact('rooms'));
+
+        return view('pages.dashboard.facility.rooms.index', compact('rooms'));
     }
 
     public function create(): View
     {
         $buildings = Building::all();
-        return view('facility.rooms.create', compact('buildings'));
+
+        return view('pages.dashboard.facility.rooms.create', compact('buildings'));
     }
 
     public function store(StoreRoomRequest $request): RedirectResponse
@@ -34,13 +36,14 @@ class RoomController extends Controller
 
     public function show(Room $room): View
     {
-        return view('facility.rooms.show', compact('room'));
+        return view('pages.dashboard.facility.rooms.show', compact('room'));
     }
 
     public function edit(Room $room): View
     {
         $buildings = Building::all();
-        return view('facility.rooms.edit', compact('room', 'buildings'));
+
+        return view('pages.dashboard.facility.rooms.edit', compact('room', 'buildings'));
     }
 
     public function update(UpdateRoomRequest $request, Room $room): RedirectResponse

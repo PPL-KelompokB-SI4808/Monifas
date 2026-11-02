@@ -122,4 +122,3 @@ class AnnouncementController extends Controller implements HasMiddleware
             ->with('success', 'Pengumuman berhasil diarsipkan.');
     }
 }
-

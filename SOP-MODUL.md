@@ -45,7 +45,7 @@ Ganti `<Namespace>`, `<modul>`, `<submodul>` sesuai tabel di atas (PascalCase di
 | Unit test | `tests/Unit/<Namespace>/<Submodul>/` |
 | Migration / Factory / Seeder | `database/migrations`, `database/factories`, `database/seeders` |
 
-> Catatan: struktur view mengikuti kondisi repo saat ini (`resources/views/pages/...`). Jika ada perbedaan dengan `AGENTS.md`, ikuti struktur yang sudah ada di repo dan laporkan ke tim agar dokumen disamakan.
+> Catatan: Controller **wajib** mengembalikan view dengan format standar: `return view('pages.dashboard.<modul>.<submodul>.<action>', ...)`. Dilarang keras membuat folder di luar standar seperti `resources/views/modules/` atau `resources/views/<modul>/`.
 
 Contoh hasil akhir untuk `facility/buildings`:
 
@@ -68,12 +68,16 @@ tests/Unit/Facility/Buildings/BuildingServiceTest.php
 
 - Alur: `Route → Controller → Service → View`. Tidak ada logika bisnis atau query di controller maupun Blade.
 - Controller tipis: terima request, panggil Service, kembalikan view/redirect.
+- **Encoding file PHP**: Semua file PHP **wajib disimpan dalam format UTF-8 without BOM** (tanpa BOM). Dilarang menyisipkan UTF-8 BOM (`EF BB BF`) karena akan menyebabkan `FatalError: Namespace declaration statement has to be the very first statement`.
 - Validasi dan otorisasi input hanya lewat Form Request. Dilarang `$request->validate()` di controller.
+- **Otorisasi Form Request**: Method `authorize()` di Form Request wajib memeriksa hak akses pengguna menggunakan role/policy (misal: `$this->user()?->hasRole(...)`), jangan dibiarkan `return true` tanpa otorisasi.
 - Query Eloquent dan logika bisnis ditaruh di Service.
 - Gunakan Enum untuk nilai tetap (status, prioritas, tipe). Jangan hardcode string di banyak tempat.
 - Gunakan DTO jika data yang dikirim Controller ke Service lebih dari beberapa field.
 - Gunakan Carbon bawaan Laravel untuk tanggal. Dilarang menambah package validasi atau tanggal pihak ketiga.
-- Route modul diletakkan di `routes/modules/<modul>.php`. Jangan menetapkan prefix `auth` atau `dashboard` tanpa persetujuan tim.
+- **Rute modul**: Semua rute fitur/CRUD submodul **wajib diletakkan di `routes/modules/<modul>.php`**. Dilarang keras menambahkan rute CRUD submodul langsung di `routes/web.php` (`web.php` hanya untuk route umum/profile/auth dan memuat module routes secara otomatis via glob).
+- **Named Routes**: Pada link navigasi, sidebar, tombol aksi, dan redirect controller, **wajib menggunakan named route** (`route('<modul>.<submodul>.<action>')`, contoh: `route('facility.buildings.index')`). Dilarang memakai hardcode URL string (`url('/dashboard/...')`) untuk fitur yang sudah memiliki controller/resource route.
+- **Integritas Migrasi & Model**: Saat membuat foreign key `constrained('nama_tabel')`, pastikan migrasi dan model untuk tabel yang dituju sudah ada dan timestamp migrasinya lebih awal. Dilarang memanggil Model di Controller/Service (misal `AreaZone::all()`) jika Model dan tabel migrasinya belum dibuat.
 - Relasi antar-modul lewat Model Eloquent. Jangan memanggil Service modul lain secara langsung tanpa koordinasi dengan pemilik modul tersebut.
 
 ## 5. Aturan Frontend (Blade, Komponen, Styling)
@@ -100,23 +104,25 @@ Dilarang menaruh komponen khusus submodul di `components/ui/` atau `components/s
 
 ### 5.3 Mendaftarkan komponen khusus submodul
 
-Komponen di folder `components/` halaman diakses lewat namespace anonymous component. Contoh yang sudah ada: `resources/views/pages/home/components` terdaftar sebagai namespace `home` di [AppServiceProvider.php](app/Providers/AppServiceProvider.php).
+Komponen di folder `components/` submodul didaftarkan di [AppServiceProvider.php](app/Providers/AppServiceProvider.php) secara dinamis:
 
 ```php
 // app/Providers/AppServiceProvider.php, method boot()
-Blade::anonymousComponentPath(
-    resource_path('views/pages/dashboard/facility/buildings/components'),
-    'facility-buildings'
-);
+Blade::anonymousComponentPath($componentsPath, "{$module}-{$submodule}");
+Blade::anonymousComponentPath($componentsPath, $submodule);
 ```
 
-Pemakaian di view:
+Pemakaian di view dapat menggunakan format namespace lengkap maupun short name:
 
 ```blade
+{{-- Format lengkap: <x-<modul>-<submodul>::<komponen> /> --}}
 <x-facility-buildings::building-table :buildings="$buildings" />
+
+{{-- Format singkat: <x-<submodul>::<komponen> /> --}}
+<x-dashboard::header-filters />
 ```
 
-Aturan penamaan namespace: `<modul>-<submodul>` dalam kebab-case. Tambahkan registrasi hanya untuk submodul sendiri.
+Aturan penamaan namespace: `<modul>-<submodul>` dalam kebab-case. Hindari `@include` path panjang jika komponen sudah dapat dipanggil lewat Blade component tag.
 
 ### 5.4 Standar menulis komponen
 
@@ -205,10 +211,15 @@ npm run build                # pastikan build frontend sukses
 Centang manual:
 
 - [ ] File PHP baru tidak memakai `declare(strict_types=1);`
+- [ ] File PHP disimpan dalam format **UTF-8 without BOM**
 - [ ] Controller tipis, tidak ada query/logika bisnis
-- [ ] Validasi lewat Form Request
+- [ ] Controller me-return view dengan format `pages.dashboard.<modul>.<submodul>.<action>`
+- [ ] Route submodul ditaruh di `routes/modules/<modul>.php`, bukan di `routes/web.php`
+- [ ] Semua link navigasi/sidebar/tombol menggunakan named route `route('...')`
+- [ ] Validasi dan otorisasi lewat Form Request (`authorize()` mengecek role pengguna)
 - [ ] Logika bisnis di Service
 - [ ] Model di `app/Models/` (datar)
+- [ ] Foreign key migrasi merujuk ke tabel yang sudah ada dan timestamp-nya lebih awal
 - [ ] Memakai komponen `<x-ui.*>` yang sudah ada, tidak membuat ulang
 - [ ] Komponen khusus submodul ada di `components/` milik submodul, bukan di `ui` atau `shared`
 - [ ] Tidak ada markup yang disalin berulang antar view
@@ -231,7 +242,12 @@ composer run dev   # Laravel server + Vite
 ## 11. Larangan Ringkas
 
 - Menaruh logika bisnis di Controller atau Blade.
+- Menyimpan file PHP dengan format UTF-8 with BOM.
+- Menambahkan rute submodul langsung di `routes/web.php`.
+- Memakai hardcode string `url('/dashboard/...')` pada fitur yang sudah memiliki named route.
+- Mengembalikan view di luar standar `pages.dashboard.<modul>.<submodul>.<action>` (misal `modules.<modul>...`).
 - Membuat `app/Models/<Namespace>/`.
+- Membuat foreign key atau memanggil Model yang tabel/migrasinya belum dibuat.
 - Menambah package pihak ketiga tanpa persetujuan tim.
 - Membuat `tailwind.config.*`.
 - Warna hardcode, `style=""` inline untuk warna.

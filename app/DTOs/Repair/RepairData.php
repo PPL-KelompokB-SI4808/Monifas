@@ -34,8 +34,7 @@ class RepairData
             ended_at: $data['ended_at'] ?? null,
             technical_action: $data['technical_action'],
             repair_result: $data['repair_result'] ?? null,
-            resulting_facility_condition:
-                $data['resulting_facility_condition'] ?? 'good',
+            resulting_facility_condition: $data['resulting_facility_condition'] ?? 'good',
             status: $data['status'] ?? 'draft',
         );
     }
@@ -51,8 +50,7 @@ class RepairData
             'ended_at' => $this->ended_at,
             'technical_action' => $this->technical_action,
             'repair_result' => $this->repair_result,
-            'resulting_facility_condition' =>
-                $this->resulting_facility_condition,
+            'resulting_facility_condition' => $this->resulting_facility_condition,
             'status' => $this->status,
         ];
     }
