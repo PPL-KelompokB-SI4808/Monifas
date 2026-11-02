@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UsersAndAccess\Roles\RoleController;
+use App\Http\Controllers\UsersAndAccess\UserAddresses\UserAddressController;
 use App\Http\Controllers\UsersAndAccess\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,4 +13,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('dashboard/users-and-access')-
 
     // Roles Management Routes
     Route::resource('roles', RoleController::class)->except(['show']);
+
+    // User Addresses Management Routes
+    Route::resource('user-addresses', UserAddressController::class)->except(['show']);
 });

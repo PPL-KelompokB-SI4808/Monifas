@@ -195,7 +195,7 @@ $modules = [
             [
                 'title' => 'User Addresses',
                 'slug' => 'user-addresses',
-                'url' => url('/dashboard/users-and-access/user-addresses'),
+                'url' => route('users-and-access.user-addresses.index'),
                 'is_active' => request()->is('dashboard/users-and-access/user-addresses*'),
             ],
         ],

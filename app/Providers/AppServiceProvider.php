@@ -51,6 +51,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/users-and-access/user-addresses/components'),
+            'users-and-access-user-addresses'
+        );
+
+        Blade::anonymousComponentPath(
             resource_path('views/pages/dashboard/supporting/announcements/components'),
             'supporting-announcements'
         );
