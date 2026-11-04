@@ -30,15 +30,8 @@
             />
         </div>
 
-        <!-- Notification Icon -->
-        <button
-            type="button"
-            class="relative rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
-            aria-label="Notifikasi"
-        >
-            <x-lucide-bell class="h-4 w-4" />
-            <span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary"></span>
-        </button>
+        <!-- Notification Dropdown Component -->
+        <x-shared.notification-dropdown />
 
         <!-- User Profile Dropdown -->
         <div class="relative flex items-center pl-2 border-l border-border" x-data="{ userMenuOpen: false }">

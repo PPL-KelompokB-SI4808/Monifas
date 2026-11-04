@@ -23,11 +23,17 @@ Alur request: `Router → Controller → Service → View (Blade)`, validasi lew
 - Proyek ini **tidak memakai** `declare(strict_types=1);`. Jangan menambahkannya ke file PHP.
 - Controller tipis; logika bisnis di `app/Services/`; validasi di `app/Http/Requests/`.
 - Model diletakkan **datar** di `app/Models/` (jangan buat `app/Models/<Namespace>/`).
+- **Encoding file PHP**: Semua file PHP **wajib disimpan dalam format UTF-8 without BOM** (tanpa BOM). Dilarang menyisipkan UTF-8 BOM (`EF BB BF`) karena akan menyebabkan `FatalError: Namespace declaration statement has to be the very first statement`.
+- **Rute modul**: Semua rute fitur/CRUD submodul **wajib diletakkan di `routes/modules/<modul>.php`**. Dilarang keras menambahkan rute CRUD submodul langsung di `routes/web.php` (`web.php` hanya untuk route umum/profile/auth dan memuat module routes secara otomatis via glob).
+- **Named Routes**: Pada link navigasi, sidebar, tombol aksi, dan redirect controller, **wajib menggunakan named route** (`route('<modul>.<submodul>.<action>')`, contoh: `route('facility.buildings.index')`). Dilarang memakai hardcode URL string (`url('/dashboard/...')`) untuk fitur yang sudah memiliki controller/resource route.
+- **Standar View & Controller Return**: View halaman dashboard berada di `resources/views/pages/dashboard/<modul>/<submodul>/`. Controller wajib mengembalikan view dengan format dot-notation: `return view('pages.dashboard.<modul>.<submodul>.<action>', ...)`. Dilarang membuat folder di luar standar seperti `resources/views/modules/` atau `resources/views/<modul>/`.
+- **Komponen Submodul**: Komponen Blade khusus submodul diletakkan di `resources/views/pages/dashboard/<modul>/<submodul>/components/` dan dipanggil menggunakan Blade anonymous component namespace: `<x-<modul>-<submodul>::<nama-komponen> />` atau `<x-<submodul>::<nama-komponen> />`.
+- **Integritas Migrasi & Model**: Saat membuat foreign key `constrained('nama_tabel')`, pastikan migrasi dan model untuk tabel yang dituju sudah ada dan timestamp migrasinya lebih awal. Dilarang memanggil Model di Controller (misal `AreaZone::all()`) jika Model dan tabel migrasinya belum dibuat.
+- **Otorisasi Form Request**: Method `authorize()` di Form Request wajib memeriksa hak akses pengguna menggunakan role/policy (misal: `$this->user()?->hasRole(...)`), jangan dibiarkan `return true` tanpa otorisasi.
 - Gunakan Form Request, Validation, dan Carbon bawaan Laravel; jangan tambah package validasi/tanggal pihak ketiga.
 - Warna UI memakai design token (`bg-primary`, `text-primary-foreground`, `bg-secondary`, `text-foreground`, `bg-background`, dst.) yang didefinisikan di `:root` dan `.dark` pada `resources/css/app.css`.
 - Komponen UI = Blade anonymous component di `resources/views/components/ui/` (tanpa PHP class).
 - Layout utama: `resources/views/layouts/app.blade.php` (memuat `@vite(['resources/css/app.css', 'resources/js/app.js'])`).
-- Route per modul diletakkan di `routes/modules/`; jangan menetapkan prefix `auth`/`dashboard` tanpa persetujuan.
 - Gunakan `.gitkeep` untuk direktori kosong; jangan menimpa file yang sudah ada.
 
 
@@ -77,11 +83,13 @@ Delapan modul, masing-masing dengan submodul. Kebab-case dipakai di `resources/v
 
 Untuk setiap `<modul>/<submodul>` lokasi file:
 
-- Controller: `app/Http/Controllers/<Namespace>/<submodul>/` — menerima request, memanggil Service, mengembalikan view/redirect (tipis).
-- Form Request: `app/Http/Requests/<Namespace>/<submodul>/` — validasi & otorisasi input.
-- Service: `app/Services/<Namespace>/<submodul>/` — logika bisnis dan akses data.
-- View: `resources/views/dashboard/<modul>/<submodul>/partials/` — potongan Blade khusus submodul (tabel, form, dsb.).
-- Test: `tests/Feature/<Namespace>/<submodul>/` (alur HTTP/end-to-end) dan `tests/Unit/<Namespace>/<submodul>/` (logika terisolasi).
+- Controller: `app/Http/Controllers/<Namespace>/<Submodul>/` — menerima request, memanggil Service, mengembalikan view/redirect (tipis).
+- Form Request: `app/Http/Requests/<Namespace>/<Submodul>/` — validasi & otorisasi input.
+- Service: `app/Services/<Namespace>/<Submodul>/` — logika bisnis dan akses data.
+- View halaman: `resources/views/pages/dashboard/<modul>/<submodul>/{index,create,edit,show}.blade.php` — halaman view utama.
+- Komponen submodul: `resources/views/pages/dashboard/<modul>/<submodul>/components/` — komponen Blade khusus submodul (tabel, form, filter, kartu ringkasan).
+- Partial submodul: `resources/views/pages/dashboard/<modul>/<submodul>/partials/` — potongan template lokal submodul.
+- Test: `tests/Feature/<Namespace>/<Submodul>/` (alur HTTP/end-to-end) dan `tests/Unit/<Namespace>/<Submodul>/` (logika terisolasi).
 
 ### Direktori Shared
 
