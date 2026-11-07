@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('parent_id')->nullable()->constrained('locations')->nullOnDelete();
+            $table->string('code', 30)->unique();
+            $table->string('name', 150);
+            $table->string('region', 100);
+            $table->text('address');
+            $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
