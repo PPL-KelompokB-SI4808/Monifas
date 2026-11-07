@@ -18,7 +18,13 @@ class LocationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'parent_id' => null,
+            'code' => 'LOC-'.fake()->unique()->numerify('####'),
+            'name' => fake()->city(),
+            'region' => fake()->state(),
+            'address' => fake()->address(),
+            'description' => fake()->sentence(),
+            'is_active' => true,
         ];
     }
 }
