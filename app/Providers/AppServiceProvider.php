@@ -70,6 +70,16 @@ class AppServiceProvider extends ServiceProvider
             'location-and-category-locations'
         );
 
+        Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/location-and-category/facility-categories/components'),
+            'location-and-category-facility-categories'
+        );
+
+        Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/location-and-category/damage-categories/components'),
+            'location-and-category-damage-categories'
+        );
+
         foreach ($modules as $module => $submodules) {
             foreach ($submodules as $submodule) {
                 $componentsPath = resource_path("views/pages/dashboard/{$module}/{$submodule}/components");
