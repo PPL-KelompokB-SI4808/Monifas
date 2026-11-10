@@ -58,19 +58,19 @@ $modules = [
             [
                 'title' => 'Locations',
                 'slug' => 'locations',
-                'url' => url('/dashboard/location-and-category/locations'),
+                'url' => route('location-and-category.locations.index'),
                 'is_active' => request()->is('dashboard/location-and-category/locations*'),
             ],
             [
                 'title' => 'Facility Categories',
                 'slug' => 'facility-categories',
-                'url' => url('/dashboard/location-and-category/facility-categories'),
+                'url' => route('location-and-category.facility-categories.index'),
                 'is_active' => request()->is('dashboard/location-and-category/facility-categories*'),
             ],
             [
                 'title' => 'Damage Categories',
                 'slug' => 'damage-categories',
-                'url' => url('/dashboard/location-and-category/damage-categories'),
+                'url' => route('location-and-category.damage-categories.index'),
                 'is_active' => request()->is('dashboard/location-and-category/damage-categories*'),
             ],
         ],

@@ -1,5 +1,8 @@
 <x-layouts.dashboard title="Manajemen Lokasi Kawasan">
     <div class="space-y-6">
+        <!-- Tab Switcher Terpadu Kategori & Lokasi -->
+        <x-shared.category-tab-switcher active="locations" />
+
         <!-- Page Header -->
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
