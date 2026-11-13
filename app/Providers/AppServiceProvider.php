@@ -80,6 +80,11 @@ class AppServiceProvider extends ServiceProvider
             'location-and-category-damage-categories'
         );
 
+        Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/reporting/report-priorities/components'),
+            'reporting-report-priorities'
+        );
+
         foreach ($modules as $module => $submodules) {
             foreach ($submodules as $submodule) {
                 $componentsPath = resource_path("views/pages/dashboard/{$module}/{$submodule}/components");
