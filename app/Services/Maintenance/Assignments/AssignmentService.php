@@ -62,9 +62,10 @@ class AssignmentService
                     ]);
                 },
             ])
-            ->havingRaw('active_tasks_count < maintenance_officers.max_active_tasks')
-            ->orderBy('active_tasks_count')
-            ->get();
+            ->get()
+            ->filter(fn (MaintenanceOfficer $officer): bool => $officer->active_tasks_count < $officer->max_active_tasks)
+            ->sortBy('active_tasks_count')
+            ->values();
     }
 
     /**
