@@ -286,6 +286,30 @@ class AssignmentService
     }
 
     /**
+     * Get verified reports that do not have an active assignment.
+     *
+     * @return Collection<int, Report>
+     */
+    public function getAssignableReports(int $limit = 10): Collection
+    {
+        return Report::query()
+            ->where('status', ReportStatus::Verified)
+            ->whereNotIn('id', Assignment::query()
+                ->select('report_id')
+                ->whereNotNull('report_id')
+                ->whereIn('status', [
+                    AssignmentStatus::Assigned->value,
+                    AssignmentStatus::Accepted->value,
+                    AssignmentStatus::InProgress->value,
+                ]))
+            ->with(['facility', 'priority'])
+            ->oldest('created_at')
+            ->oldest('id')
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
      * Get paginated assignments with optional status and officer filters.
      *
      * @param  array<string, mixed>  $filters

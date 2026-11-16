@@ -45,8 +45,9 @@ class AssignmentController extends Controller implements HasMiddleware
         ]);
         $officers = $this->officerService->getAllOfficers();
         $statuses = AssignmentStatus::cases();
+        $assignableReports = $this->assignmentService->getAssignableReports();
 
-        return view('pages.dashboard.maintenance.assignments.index', compact('assignments', 'officers', 'statuses'));
+        return view('pages.dashboard.maintenance.assignments.index', compact('assignments', 'officers', 'statuses', 'assignableReports'));
     }
 
     public function create(Report $report): View|RedirectResponse
@@ -92,8 +93,9 @@ class AssignmentController extends Controller implements HasMiddleware
     public function show(Assignment $assignment): View
     {
         $assignment->load(['report', 'officer.user', 'assignedBy']);
+        $officers = $this->assignmentService->recommendOfficersForReport($assignment->report);
 
-        return view('pages.dashboard.maintenance.assignments.show', compact('assignment'));
+        return view('pages.dashboard.maintenance.assignments.show', compact('assignment', 'officers'));
     }
 
     public function reassign(ReassignAssignmentRequest $request, Assignment $assignment): RedirectResponse
