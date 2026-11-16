@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Enums\AssignmentStatus;
 use Carbon\Carbon;
+use Database\Factories\AssignmentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -33,6 +35,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 ])]
 class Assignment extends Model
 {
+    /** @use HasFactory<AssignmentFactory> */
+    use HasFactory;
+
     /**
      * Get the attributes that should be cast.
      *
