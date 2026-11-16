@@ -93,15 +93,19 @@ class AssignmentService
      * @throws InvalidArgumentException
      */
     public function assignReport(
-        Report $report,
+        Report|int $report,
         MaintenanceOfficer|int $officer,
         User $assignedBy,
         ?string $instructionNotes = null
     ): Assignment {
         return DB::transaction(function () use ($report, $officer, $assignedBy, $instructionNotes): Assignment {
+            $resolvedReport = $report instanceof Report
+                ? $report
+                : Report::query()->findOrFail($report);
+
             $lockedReport = Report::query()
                 ->lockForUpdate()
-                ->find($report->id);
+                ->find($resolvedReport->id);
 
             if ($lockedReport === null) {
                 throw new InvalidArgumentException('Laporan yang akan ditugaskan tidak ditemukan.');
@@ -126,8 +130,7 @@ class AssignmentService
 
             $lockedReport->update(['status' => ReportStatus::Assigned]);
 
-            // TODO: Set the action URL after assignment routes are available.
-            $actionUrl = null;
+            $actionUrl = route('maintenance.assignments.show', $assignment);
 
             $this->notificationService->send(
                 user: $resolvedOfficer->user_id,
@@ -203,8 +206,7 @@ class AssignmentService
 
             $report->update(['status' => ReportStatus::Assigned]);
 
-            // TODO: Set the action URL after assignment routes are available.
-            $actionUrl = null;
+            $actionUrl = route('maintenance.assignments.show', $newAssignment);
 
             $this->notificationService->send(
                 user: $resolvedOfficer->user_id,
@@ -261,8 +263,7 @@ class AssignmentService
                 throw new InvalidArgumentException('Petugas pada penugasan tidak ditemukan.');
             }
 
-            // TODO: Set the action URL after assignment routes are available.
-            $actionUrl = null;
+            $actionUrl = route('maintenance.assignments.show', $lockedAssignment);
 
             $this->notificationService->send(
                 user: $officer->user_id,
