@@ -61,6 +61,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Blade::anonymousComponentPath(
+            resource_path('views/pages/dashboard/supporting/campaigns/components'),
+            'supporting-campaigns'
+        );
+
+        Blade::anonymousComponentPath(
             resource_path('views/pages/dashboard/facility/buildings/components'),
             'facility-buildings'
         );

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Supporting\Announcements\AnnouncementController;
+use App\Http\Controllers\Supporting\Campaigns\CampaignController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:admin'])
@@ -12,4 +13,10 @@ Route::middleware(['auth', 'role:admin'])
             ->name('announcements.archive');
 
         Route::resource('announcements', AnnouncementController::class);
+
+        // Campaign Management Routes
+        Route::patch('campaigns/{campaign}/cancel', [CampaignController::class, 'cancel'])
+            ->name('campaigns.cancel');
+
+        Route::resource('campaigns', CampaignController::class);
     });
