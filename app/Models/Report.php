@@ -169,6 +169,16 @@ class Report extends Model
     }
 
     /**
+     * Feedback submitted for this report.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Feedback, $this>
+     */
+    public function feedback(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Feedback::class, 'report_id');
+    }
+
+    /**
      * Scope query to only pending reports.
      *
      * @param  Builder<$this>  $query
