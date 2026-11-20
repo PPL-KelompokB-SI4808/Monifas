@@ -44,6 +44,6 @@ class Facility extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(FacilityCategory::class, 'facility_category_id');
     }
 }
