@@ -3,6 +3,7 @@
 namespace Tests\Feature\Facility\Rooms;
 
 use App\Models\Building;
+use App\Models\Location;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,6 +28,7 @@ class RoomCrudTest extends TestCase
 
         // Buat data gedung terlebih dahulu untuk relasi foreign key
         $building = Building::create([
+            'location_id' => Location::firstOrCreate(['code' => 'LOC-01'], ['name' => 'Kampus Utama', 'region' => 'Bandung', 'address' => 'Jl. Telekomunikasi No. 1', 'is_active' => true])->id,
             'code' => 'BLD-01',
             'name' => 'Gedung Utama',
             'total_floors' => 5,
@@ -56,6 +58,7 @@ class RoomCrudTest extends TestCase
         $admin = User::factory()->create();
 
         $building = Building::create([
+            'location_id' => Location::firstOrCreate(['code' => 'LOC-01'], ['name' => 'Kampus Utama', 'region' => 'Bandung', 'address' => 'Jl. Telekomunikasi No. 1', 'is_active' => true])->id,
             'code' => 'BLD-01',
             'name' => 'Gedung Utama',
             'total_floors' => 5,
@@ -90,6 +93,7 @@ class RoomCrudTest extends TestCase
         $admin = User::factory()->create();
 
         $building = Building::create([
+            'location_id' => Location::firstOrCreate(['code' => 'LOC-01'], ['name' => 'Kampus Utama', 'region' => 'Bandung', 'address' => 'Jl. Telekomunikasi No. 1', 'is_active' => true])->id,
             'code' => 'BLD-01',
             'name' => 'Gedung Utama',
             'total_floors' => 5,
@@ -113,3 +117,4 @@ class RoomCrudTest extends TestCase
         $this->assertDatabaseMissing('rooms', ['code' => 'ROOM-DEL']);
     }
 }
+
