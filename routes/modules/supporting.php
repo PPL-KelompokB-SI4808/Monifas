@@ -1,14 +1,15 @@
 <?php
 
 use App\Http\Controllers\Supporting\Announcements\AnnouncementController;
+use App\Http\Controllers\Supporting\Feedback\FeedbackController;
 use App\Http\Controllers\Supporting\Campaigns\CampaignController;
 use Illuminate\Support\Facades\Route;
 
+// Announcement Management Routes (Admin only)
 Route::middleware(['auth', 'role:admin'])
     ->prefix('dashboard/supporting')
     ->name('supporting.')
     ->group(function () {
-        // Announcement Management Routes
         Route::patch('announcements/{announcement}/archive', [AnnouncementController::class, 'archive'])
             ->name('announcements.archive');
 
@@ -19,4 +20,15 @@ Route::middleware(['auth', 'role:admin'])
             ->name('campaigns.cancel');
 
         Route::resource('campaigns', CampaignController::class);
+    });
+
+// Feedback Management Routes (All authenticated users for CRUD, Admin/Supervisor for respond)
+Route::middleware(['auth'])
+    ->prefix('dashboard/supporting')
+    ->name('supporting.')
+    ->group(function () {
+        Route::post('feedback/{feedback}/respond', [FeedbackController::class, 'respond'])
+            ->name('feedback.respond');
+
+        Route::resource('feedback', FeedbackController::class);
     });
