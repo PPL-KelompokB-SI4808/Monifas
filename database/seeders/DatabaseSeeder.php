@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             ReportPrioritySeeder::class,
+            LocationSeeder::class,
+            FacilityCategorySeeder::class,
+            DamageCategorySeeder::class,
         ]);
     }
 }
