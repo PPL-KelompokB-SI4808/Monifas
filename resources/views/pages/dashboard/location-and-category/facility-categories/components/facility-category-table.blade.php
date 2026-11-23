@@ -1,6 +1,6 @@
 @props(['categories'])
 
-<div {{ $attributes->merge(['class' => 'rounded-xl border border-border bg-card shadow-2xs overflow-hidden']) }}>
+<div {{ $attributes->merge(['class' => 'rounded-xl border border-border bg-background overflow-hidden']) }}>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-xs">
             <thead class="border-b border-border bg-muted/40 text-muted-foreground font-medium">
@@ -38,12 +38,12 @@
                         </td>
                         <td class="py-3.5 px-4 text-center">
                             @if($category->is_active)
-                                <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="inline-flex items-center gap-1 rounded-full border border-success/20 bg-success/10 px-2.5 py-0.5 text-[11px] font-medium text-success">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-success"></span>
                                     <span>Aktif</span>
                                 </span>
                             @else
-                                <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium bg-muted text-muted-foreground border border-border">
+                                <span class="inline-flex items-center gap-1 rounded-full border border-border bg-secondary px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
                                     <span class="h-1.5 w-1.5 rounded-full bg-muted-foreground"></span>
                                     <span>Nonaktif</span>
                                 </span>
@@ -62,7 +62,7 @@
                                     <button
                                         type="submit"
                                         title="{{ $category->is_active ? 'Nonaktifkan Kategori' : 'Aktifkan Kategori' }}"
-                                        class="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                                        class="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
                                     >
                                         @if($category->is_active)
                                             <x-lucide-toggle-right class="h-4 w-4 text-emerald-500" />
@@ -76,7 +76,7 @@
                                 <a
                                     href="{{ route('location-and-category.facility-categories.show', $category) }}"
                                     title="Lihat Detail"
-                                    class="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                                    class="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
                                 >
                                     <x-lucide-eye class="h-3.5 w-3.5" />
                                 </a>
@@ -85,7 +85,7 @@
                                 <a
                                     href="{{ route('location-and-category.facility-categories.edit', $category) }}"
                                     title="Edit Kategori"
-                                    class="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                                    class="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
                                 >
                                     <x-lucide-pencil class="h-3.5 w-3.5" />
                                 </a>

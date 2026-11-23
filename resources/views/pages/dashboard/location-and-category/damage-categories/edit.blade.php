@@ -1,55 +1,59 @@
 <x-layouts.dashboard title="Edit Kategori Kerusakan">
-    <div class="space-y-6">
-        <!-- Breadcrumb / Back Link -->
-        <div class="flex items-center gap-2 text-xs text-muted-foreground">
-            <a href="{{ route('location-and-category.damage-categories.index') }}" class="hover:text-foreground inline-flex items-center gap-1 transition-colors">
+    <div class="max-w-3xl mx-auto space-y-6">
+
+        {{-- Page Header --}}
+        <div class="flex items-center gap-3">
+            <a
+                href="{{ route('location-and-category.damage-categories.index') }}"
+                class="inline-flex items-center gap-1.5 rounded-[6px] border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground hover:-translate-y-px"
+            >
                 <x-lucide-arrow-left class="h-3.5 w-3.5" />
                 <span>Kembali ke Daftar Kategori Kerusakan</span>
             </a>
         </div>
 
-        <!-- Page Header -->
-        <div class="flex flex-col gap-1">
-            <h1 class="text-xl font-bold tracking-tight text-foreground">Edit Kategori Kerusakan</h1>
-            <p class="text-xs text-muted-foreground">Memperbarui kode, deskripsi, atau indikasi penanganan untuk {{ $category->name }} ({{ $category->code }}).</p>
+        <div>
+            <h1 class="text-xl font-bold text-foreground" style="letter-spacing: -0.03em;">Edit Kategori Kerusakan</h1>
+            <p class="mt-0.5 text-xs text-muted-foreground">Memperbarui kode, deskripsi, atau indikasi penanganan untuk {{ $category->name }} ({{ $category->code }}).</p>
         </div>
 
-        <!-- Flash Messages -->
-        @if ($errors->any())
-            <div class="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-xs font-medium text-red-600 dark:text-red-400 shadow-2xs space-y-1">
-                @foreach ($errors->all() as $error)
-                    <p class="flex items-center gap-2">
-                        <x-lucide-alert-circle class="h-4 w-4 shrink-0" />
-                        <span>{{ $error }}</span>
-                    </p>
-                @endforeach
-            </div>
-        @endif
-
-        <!-- Card Form -->
-        <div class="rounded-xl border border-border bg-card p-6 shadow-2xs">
+        {{-- Form Card --}}
+        <div class="rounded-xl border border-border bg-background p-6">
             <form action="{{ route('location-and-category.damage-categories.update', $category) }}" method="POST">
                 @csrf
                 @method('PUT')
+
+                {{-- Validation Errors --}}
+                @if ($errors->any())
+                    <div class="mb-6 rounded-[8px] border border-error/20 bg-error/10 px-4 py-3 text-sm font-medium text-error space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <p class="flex items-center gap-2">
+                                <x-lucide-alert-circle class="h-4 w-4 shrink-0" />
+                                <span>{{ $error }}</span>
+                            </p>
+                        @endforeach
+                    </div>
+                @endif
 
                 <x-location-and-category-damage-categories::damage-category-form :category="$category" />
 
                 <div class="mt-8 flex items-center justify-end gap-3 border-t border-border pt-4">
                     <a
                         href="{{ route('location-and-category.damage-categories.index') }}"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-4 py-2 text-xs font-medium text-foreground hover:bg-accent transition-colors"
+                        class="inline-flex items-center gap-1.5 rounded-[6px] border border-border bg-background h-[38px] px-4 text-sm font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground"
                     >
-                        <span>Batal</span>
+                        Batal
                     </a>
                     <button
                         type="submit"
-                        class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-2xs hover:bg-primary/90 transition-colors"
+                        class="inline-flex items-center gap-1.5 rounded-[6px] h-[38px] px-4 text-sm font-medium bg-primary text-primary-foreground transition-all hover:bg-primary-hover hover:shadow-[0_4px_12px_rgba(99,102,241,0.35)] hover:-translate-y-px active:translate-y-0 cursor-pointer"
                     >
-                        <x-lucide-check class="h-3.5 w-3.5" />
+                        <x-lucide-check class="h-4 w-4" />
                         <span>Perbarui Kategori Kerusakan</span>
                     </button>
                 </div>
             </form>
         </div>
+
     </div>
 </x-layouts.dashboard>
