@@ -16,7 +16,10 @@
 
         {{-- Minimal top bar --}}
         <div class="relative z-10 flex h-14 items-center border-b border-border bg-background/80 px-6 backdrop-blur-md">
-            <a href="/" class="text-sm font-bold tracking-tight text-foreground">MONIFAS</a>
+            <a href="/" class="flex items-center gap-2.5">
+                <img src="{{ asset('images/monifas-icon-only.svg') }}" alt="MONIFAS" class="h-7 w-7" />
+                <span class="text-sm font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">MONIFAS</span>
+            </a>
         </div>
 
         {{-- Centered form area --}}

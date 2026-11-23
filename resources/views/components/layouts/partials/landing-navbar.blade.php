@@ -1,6 +1,9 @@
 <header class="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-md">
     <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-        <a href="/" class="text-sm font-bold tracking-tight text-foreground">MONIFAS</a>
+        <a href="/" class="flex items-center gap-2.5">
+            <img src="{{ asset('images/monifas-icon-only.svg') }}" alt="MONIFAS" class="h-7 w-7" />
+            <span class="text-sm font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">MONIFAS</span>
+        </a>
         <nav class="hidden items-center gap-6 md:flex">
             <a href="#cakupan" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Fasilitas</a>
             <a href="#alur" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Cara kerja</a>
