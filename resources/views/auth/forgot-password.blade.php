@@ -1,34 +1,34 @@
 <x-guest-layout>
-    <div class="mb-6 text-center">
-        <h1 class="text-lg font-bold tracking-tight text-foreground">Lupa Password?</h1>
-        <p class="text-xs text-muted-foreground mt-1">
-            Masukkan alamat email akun Anda. Kami akan mengirimkan tautan untuk mengatur ulang password Anda.
-        </p>
+    <div class="rounded-xl border border-border bg-background p-8 shadow-sm">
+        {{-- Header --}}
+        <div class="mb-7">
+            <h1 class="text-xl font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">Lupa password?</h1>
+            <p class="mt-1 text-sm text-muted-foreground">
+                Masukkan email Anda dan kami kirimkan tautan reset.
+            </p>
+        </div>
+
+        <x-auth-session-status class="mb-5" :status="session('status')" />
+
+        <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+            @csrf
+
+            <div>
+                <x-input-label for="email" value="Email" />
+                <x-text-input id="email" class="mt-1.5 w-full" type="email" name="email"
+                    :value="old('email')" required autofocus placeholder="nama@email.com" />
+                <x-input-error :messages="$errors->get('email')" class="mt-1.5" />
+            </div>
+
+            <x-primary-button class="mt-1 w-full">
+                Kirim Tautan Reset
+            </x-primary-button>
+        </form>
     </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1.5 w-full" type="email" name="email" :value="old('email')" required autofocus placeholder="nama@email.com" />
-            <x-input-error :messages="$errors->get('email')" class="mt-1.5" />
-        </div>
-
-        <div class="pt-1">
-            <x-primary-button class="w-full">
-                {{ __('Kirim Link Reset Password') }}
-            </x-primary-button>
-        </div>
-
-        <div class="text-center pt-3 border-t border-border mt-5">
-            <a href="{{ route('login') }}" class="text-xs text-primary font-medium hover:underline">
-                &larr; Kembali ke halaman Masuk
-            </a>
-        </div>
-    </form>
+    <p class="mt-4 text-center text-xs text-muted-foreground">
+        <a href="{{ route('login') }}" class="font-medium text-primary hover:underline">
+            &larr; Kembali ke halaman masuk
+        </a>
+    </p>
 </x-guest-layout>

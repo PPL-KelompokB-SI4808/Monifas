@@ -5,6 +5,7 @@ namespace App\Services\Reporting\Reports;
 use App\DTOs\Reporting\ReportData;
 use App\Enums\NotificationType;
 use App\Enums\ReportStatus;
+use App\Enums\UserRole;
 use App\Models\Report;
 use App\Models\ReportPriority;
 use App\Models\User;
@@ -280,5 +281,81 @@ class ReportService
             ->with(['reporter', 'location', 'building', 'room', 'facility', 'damageCategory', 'priority', 'verifiedBy', 'repairs'])
             ->where('ticket_number', trim($ticketNumber))
             ->first();
+    }
+
+    /**
+     * Store a new public report from a guest (no authenticated user required).
+     * Uses the lowest-urgency active priority automatically.
+     * Sends a SystemAlert notification to all Admin and Supervisor users.
+     *
+     * @param  array<string, mixed>  $data  Validated data from PublicReportRequest
+     */
+    public function storePublic(array $data): Report
+    {
+        return DB::transaction(function () use ($data) {
+            $ticketNumber = $this->generateTicketNumber();
+
+            // Gunakan prioritas terendah (urutan terakhir) secara otomatis
+            $defaultPriority = ReportPriority::query()
+                ->where('is_active', true)
+                ->orderedByUrgency()
+                ->orderByDesc('sort_order')
+                ->first();
+
+            $priorityId = $defaultPriority?->id;
+
+            $report = Report::create([
+                'ticket_number' => $ticketNumber,
+                'reporter_id' => null,
+                'reporter_name' => trim((string) ($data['reporter_name'] ?? '')),
+                'reporter_phone' => trim((string) ($data['reporter_phone'] ?? '')),
+                'location_id' => (int) $data['location_id'],
+                'building_id' => (int) $data['building_id'],
+                'room_id' => isset($data['room_id']) && $data['room_id'] !== '' ? (int) $data['room_id'] : null,
+                'facility_id' => (int) $data['facility_id'],
+                'damage_category_id' => (int) $data['damage_category_id'],
+                'priority_id' => $priorityId,
+                'title' => trim((string) ($data['title'] ?? '')),
+                'description' => trim((string) ($data['description'] ?? '')),
+                'status' => ReportStatus::Pending->value,
+                'verified_by' => null,
+                'verified_at' => null,
+                'rejection_reason' => null,
+                'completed_at' => null,
+            ]);
+
+            $this->notifyAdminsAndSupervisors($report);
+
+            return $report;
+        });
+    }
+
+    /**
+     * Send a SystemAlert notification about a new public report
+     * to all active Admin and Supervisor users.
+     */
+    protected function notifyAdminsAndSupervisors(Report $report): void
+    {
+        $actionUrl = Route::has('reporting.reports.show')
+            ? route('reporting.reports.show', $report)
+            : null;
+
+        $adminRole = UserRole::Admin->value;
+        $supervisorRole = UserRole::Supervisor->value;
+
+        $recipients = User::query()
+            ->whereHas('role', fn (Builder $q) => $q->whereIn('slug', [$adminRole, $supervisorRole]))
+            ->where('is_active', true)
+            ->get();
+
+        foreach ($recipients as $recipient) {
+            $this->notificationService->send(
+                user: $recipient,
+                type: NotificationType::SystemAlert,
+                title: 'Laporan Publik Masuk',
+                message: "Laporan baru #{$report->ticket_number} dari {$report->reporter_name} menunggu verifikasi.",
+                actionUrl: $actionUrl,
+            );
+        }
     }
 }

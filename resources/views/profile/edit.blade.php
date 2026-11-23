@@ -1,29 +1,28 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+<x-layouts.dashboard title="Profil Akun">
+    <div class="mx-auto max-w-2xl space-y-5">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
+        {{-- Page Header --}}
+        <div>
+            <p class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Akun</p>
+            <h1 class="mt-1 text-xl font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">
+                Profil Akun
+            </h1>
         </div>
+
+        {{-- Profile Information --}}
+        <div class="rounded-xl border border-border bg-background p-6">
+            @include('profile.partials.update-profile-information-form')
+        </div>
+
+        {{-- Password --}}
+        <div class="rounded-xl border border-border bg-background p-6">
+            @include('profile.partials.update-password-form')
+        </div>
+
+        {{-- Delete Account --}}
+        <div class="rounded-xl border border-red-500/20 bg-red-500/5 p-6">
+            @include('profile.partials.delete-user-form')
+        </div>
+
     </div>
-</x-app-layout>
+</x-layouts.dashboard>

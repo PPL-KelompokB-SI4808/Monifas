@@ -1,33 +1,31 @@
 <x-layouts.dashboard title="Manajemen Lokasi Kawasan">
     <div class="space-y-6">
-        <!-- Tab Switcher Terpadu Kategori & Lokasi -->
-        <x-shared.category-tab-switcher active="locations" />
 
-        <!-- Page Header -->
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {{-- Page Header --}}
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
-                <h1 class="text-xl font-bold tracking-tight text-foreground">Master Lokasi Kawasan</h1>
-                <p class="text-xs text-muted-foreground mt-0.5">Kelola data master wilayah, hierarki kawasan induk-anak, dan zonasi infrastruktur kampus.</p>
+                <h1 class="text-xl font-bold text-foreground" style="letter-spacing: -0.03em;">Master Lokasi Kawasan</h1>
+                <p class="mt-0.5 text-xs text-muted-foreground">Kelola data master wilayah, hierarki kawasan induk-anak, dan zonasi infrastruktur kampus.</p>
             </div>
             <a
                 href="{{ route('location-and-category.locations.create') }}"
-                class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-xs font-medium text-primary-foreground shadow-2xs hover:bg-primary/90 transition-colors"
+                class="inline-flex shrink-0 items-center gap-1.5 rounded-[6px] h-[38px] px-4 text-sm font-medium bg-primary text-primary-foreground transition-all hover:bg-primary-hover hover:shadow-[0_4px_12px_rgba(99,102,241,0.35)] hover:-translate-y-px active:translate-y-0"
             >
-                <x-lucide-plus class="h-3.5 w-3.5" />
+                <x-lucide-plus class="h-4 w-4" />
                 <span>Tambah Lokasi</span>
             </a>
         </div>
 
-        <!-- Flash Messages -->
+        {{-- Flash Messages --}}
         @if (session('success') || session('status'))
-            <div class="flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-xs font-medium text-emerald-600 dark:text-emerald-400 shadow-2xs">
+            <div class="flex items-center gap-2.5 rounded-[8px] border border-success/20 bg-success/10 px-4 py-3 text-sm font-medium text-success">
                 <x-lucide-check-circle-2 class="h-4 w-4 shrink-0" />
                 <span>{{ session('success') ?? session('status') }}</span>
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-xs font-medium text-red-600 dark:text-red-400 shadow-2xs space-y-1">
+            <div class="rounded-[8px] border border-error/20 bg-error/10 px-4 py-3 text-sm font-medium text-error space-y-1">
                 @foreach ($errors->all() as $error)
                     <p class="flex items-center gap-2">
                         <x-lucide-alert-circle class="h-4 w-4 shrink-0" />
@@ -37,15 +35,16 @@
             </div>
         @endif
 
-        <!-- Filter Toolbar -->
+        {{-- Filter Toolbar --}}
         <x-location-and-category-locations::location-filter-bar
             :parents="$parents"
             :regions="$regions"
         />
 
-        <!-- Table Component -->
+        {{-- Table --}}
         <x-location-and-category-locations::location-table
             :locations="$locations"
         />
+
     </div>
 </x-layouts.dashboard>

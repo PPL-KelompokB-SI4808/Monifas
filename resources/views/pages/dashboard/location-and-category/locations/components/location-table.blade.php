@@ -1,6 +1,6 @@
 @props(['locations'])
 
-<div {{ $attributes->merge(['class' => 'overflow-hidden rounded-xl border border-border bg-background shadow-2xs']) }}>
+<div {{ $attributes->merge(['class' => 'overflow-hidden rounded-xl border border-border bg-background']) }}>
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-border text-left text-xs">
             <thead class="bg-secondary/50 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
@@ -57,13 +57,13 @@
                         </td>
                         <td class="px-4 py-3">
                             @if ($location->is_active)
-                                <span class="inline-flex items-center gap-1 rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="inline-flex items-center gap-1 rounded-full border border-success/20 bg-success/10 px-2.5 py-0.5 text-[11px] font-medium text-success">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-success"></span>
                                     <span>Aktif</span>
                                 </span>
                             @else
-                                <span class="inline-flex items-center gap-1 rounded-md border border-red-500/20 bg-red-500/10 px-2 py-0.5 text-[11px] font-medium text-red-600 dark:text-red-400">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>
+                                <span class="inline-flex items-center gap-1 rounded-full border border-error/20 bg-error/10 px-2.5 py-0.5 text-[11px] font-medium text-error">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-error"></span>
                                     <span>Nonaktif</span>
                                 </span>
                             @endif
@@ -72,7 +72,7 @@
                             <div class="flex items-center justify-end gap-1.5">
                                 <a
                                     href="{{ route('location-and-category.locations.show', $location) }}"
-                                    class="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+                                    class="inline-flex items-center gap-1 rounded-[6px] border border-border bg-background px-2 py-1 text-xs font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground"
                                     title="Lihat Detail"
                                 >
                                     <x-lucide-eye class="h-3.5 w-3.5" />
@@ -81,7 +81,7 @@
 
                                 <a
                                     href="{{ route('location-and-category.locations.edit', $location) }}"
-                                    class="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+                                    class="inline-flex items-center gap-1 rounded-[6px] border border-border bg-background px-2 py-1 text-xs font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground"
                                     title="Ubah Data"
                                 >
                                     <x-lucide-pencil class="h-3.5 w-3.5" />
@@ -98,7 +98,7 @@
                                     @method('DELETE')
                                     <button
                                         type="submit"
-                                        class="inline-flex items-center gap-1 rounded-md border border-red-500/20 bg-red-500/10 px-2 py-1 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                                        class="inline-flex items-center gap-1 rounded-[6px] border border-error/20 bg-error/10 px-2 py-1 text-xs font-medium text-error transition-all hover:bg-error/20 cursor-pointer"
                                         title="Hapus Lokasi"
                                     >
                                         <x-lucide-trash-2 class="h-3.5 w-3.5" />
