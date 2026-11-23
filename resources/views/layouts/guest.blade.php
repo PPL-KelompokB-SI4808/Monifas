@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-background text-foreground antialiased">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,31 +7,23 @@
 
         <title>{{ config('app.name', 'MONIFAS') }}</title>
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-full flex flex-col justify-center bg-secondary/30 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="flex justify-center">
-                <a href="/" class="flex items-center gap-2.5 group">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground text-base font-bold shadow-xs transition-transform group-hover:scale-105">
-                        M
-                    </span>
-                    <div class="flex flex-col text-left">
-                        <span class="text-xl font-bold tracking-tight text-foreground leading-none">MONIFAS</span>
-                        <span class="text-[11px] text-muted-foreground mt-0.5">Facility Monitoring Platform</span>
-                    </div>
-                </a>
-            </div>
+    <body class="relative min-h-full bg-background antialiased">
+        {{-- Dot grid background --}}
+        <div class="pointer-events-none fixed inset-0"
+             style="background-image: radial-gradient(circle, #e8e8ec 1px, transparent 1px); background-size: 28px 28px; opacity: 0.5;"></div>
+
+        {{-- Minimal top bar --}}
+        <div class="relative z-10 flex h-14 items-center border-b border-border bg-background/80 px-6 backdrop-blur-md">
+            <a href="/" class="text-sm font-bold tracking-tight text-foreground">MONIFAS</a>
         </div>
 
-        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="rounded-xl border border-border bg-background p-6 shadow-sm sm:p-8">
+        {{-- Centered form area --}}
+        <div class="relative z-10 flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4 py-12">
+            <div class="w-full max-w-sm">
                 {{ $slot }}
             </div>
-            <p class="mt-6 text-center text-xs text-muted-foreground">
-                &copy; {{ date('Y') }} MONIFAS. Seluruh hak cipta dilindungi.
-            </p>
         </div>
     </body>
 </html>
