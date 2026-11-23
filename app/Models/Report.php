@@ -10,11 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property int $id
  * @property string $ticket_number
- * @property int $reporter_id
+ * @property int|null $reporter_id
+ * @property string|null $reporter_name
+ * @property string|null $reporter_phone
  * @property int $location_id
  * @property int $building_id
  * @property int|null $room_id
@@ -49,6 +52,8 @@ class Report extends Model
     protected $fillable = [
         'ticket_number',
         'reporter_id',
+        'reporter_name',
+        'reporter_phone',
         'location_id',
         'building_id',
         'room_id',
@@ -171,9 +176,9 @@ class Report extends Model
     /**
      * Feedback submitted for this report.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Feedback, $this>
+     * @return HasOne<Feedback, $this>
      */
-    public function feedback(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function feedback(): HasOne
     {
         return $this->hasOne(Feedback::class, 'report_id');
     }

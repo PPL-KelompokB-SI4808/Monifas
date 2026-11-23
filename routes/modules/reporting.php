@@ -1,8 +1,17 @@
 <?php
 
+use App\Http\Controllers\Home\PublicReportController;
 use App\Http\Controllers\Reporting\ReportPriorities\ReportPriorityController;
 use App\Http\Controllers\Reporting\Reports\ReportController;
 use Illuminate\Support\Facades\Route;
+
+// Route publik — dapat diakses tanpa login (laporan dari halaman beranda)
+Route::prefix('public/reporting')->name('reporting.public.')->group(function () {
+    Route::post('reports', [PublicReportController::class, 'store'])->name('store');
+    Route::get('buildings', [PublicReportController::class, 'buildingsByLocation'])->name('buildings');
+    Route::get('rooms', [PublicReportController::class, 'roomsByBuilding'])->name('rooms');
+    Route::get('facilities', [PublicReportController::class, 'facilitiesByRoom'])->name('facilities');
+});
 
 Route::middleware(['auth'])->prefix('dashboard/reporting')->name('reporting.')->group(function () {
     // Reports (PBI-RPT-01)

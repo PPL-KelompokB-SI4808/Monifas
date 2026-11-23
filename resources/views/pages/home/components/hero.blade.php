@@ -18,7 +18,7 @@
         </p>
 
         <div class="mt-8 flex flex-wrap gap-3">
-            <x-ui.button href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="h-10 px-5 text-sm">
+            <x-ui.button href="#laporan" class="h-10 px-5 text-sm">
                 Buat Laporan
             </x-ui.button>
             <x-ui.button href="#alur" variant="outline" class="h-10 px-5 text-sm">

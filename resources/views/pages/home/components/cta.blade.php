@@ -7,7 +7,7 @@
                 </h2>
                 <p class="mt-1 text-sm text-muted-foreground">Laporkan sekarang, petugas akan segera menanganinya.</p>
             </div>
-            <x-ui.button href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="shrink-0 h-10 px-6 text-sm">
+            <x-ui.button href="#laporan" class="shrink-0 h-10 px-6 text-sm">
                 Buat Laporan
             </x-ui.button>
         </div>
