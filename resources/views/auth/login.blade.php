@@ -2,7 +2,7 @@
     <div class="rounded-xl border border-border bg-background p-8 shadow-sm">
         {{-- Header --}}
         <div class="mb-7">
-            <h1 class="text-xl font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">Masuk</h1>
+            <h1 class="font-display text-xl font-bold text-foreground" style="letter-spacing: -0.03em;">Masuk</h1>
             <p class="mt-1 text-sm text-muted-foreground">Lanjutkan ke dashboard MONIFAS.</p>
         </div>
 

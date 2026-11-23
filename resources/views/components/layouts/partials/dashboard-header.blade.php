@@ -14,7 +14,7 @@
         {{-- Mobile logo (shown only when sidebar is hidden) --}}
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2 md:hidden">
             <img src="{{ asset('images/monifas-icon-only.svg') }}" alt="MONIFAS" class="h-6 w-6" />
-            <span class="text-sm font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">MONIFAS</span>
+            <span class="font-display text-sm font-bold text-foreground" style="letter-spacing: -0.03em;">MONIFAS</span>
         </a>
     </div>
 
@@ -27,7 +27,7 @@
             <input
                 type="text"
                 placeholder="Cari fasilitas, laporan…"
-                class="h-8 w-56 rounded-lg border border-border bg-secondary/50 pl-9 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/10 transition-colors"
+                class="h-8 w-56 rounded-xl border border-border bg-secondary/50 pl-9 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:bg-background focus:outline-none focus:ring-[3px] focus:ring-[rgba(99,102,241,0.12)] transition-colors"
             />
         </div>
 

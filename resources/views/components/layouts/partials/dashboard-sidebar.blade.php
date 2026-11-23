@@ -223,7 +223,7 @@ $modules = [
                  class="h-7 w-7 shrink-0" />
             {{-- Wordmark (text only, since icon is separate) --}}
             <div class="flex flex-col leading-none">
-                <span class="text-sm font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">MONIFAS</span>
+                <span class="font-display text-sm font-bold text-foreground" style="letter-spacing: -0.03em;">MONIFAS</span>
                 <span class="mt-0.5 text-[10px] text-muted-foreground">Facility Monitoring</span>
             </div>
         </a>

@@ -1,47 +1,108 @@
 /* resources/css/app.css */
 
+/*
+ * Google Fonts: Plus Jakarta Sans (Display/Heading) + DM Sans (Body) + JetBrains Mono (Code)
+ * Plus Jakarta Sans menggantikan General Sans dari Design.md karena gratis & open-source.
+ * @import harus di urutan pertama sebelum @import "tailwindcss".
+ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @import "tailwindcss";
 
-@source "../views/**/*.blade.php";
-@source "../js/**/*.js";
-
 @theme {
-  --color-background:          hsl(0 0% 100%);
-  --color-foreground:          hsl(222.2 84% 4.9%);
-  --color-primary:             hsl(221.2 83.2% 53.3%);
-  --color-primary-foreground:  hsl(210 40% 98%);
-  --color-secondary:           hsl(210 40% 96.1%);
-  --color-secondary-foreground:hsl(222.2 47.4% 11.2%);
-  --color-muted:               hsl(210 40% 96.1%);
-  --color-muted-foreground:    hsl(215.4 16.3% 46.9%);
-  --color-border:              hsl(214.3 31.8% 91.4%);
-  --color-ring:                hsl(221.2 83.2% 53.3%);
+  /* ── Typography ──────────────────────────────────────────────────── */
+  --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans:    'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Color Palette (Design.md) ───────────────────────────────────── */
+
+  /* Light mode tokens */
+  --color-background:           #FAFAFA;
+  --color-foreground:           #0A0A0A;
+  --color-surface:              #FFFFFF;
+
+  --color-primary:              #6366F1;
+  --color-primary-hover:        #4F46E5;
+  --color-primary-foreground:   #FFFFFF;
+
+  --color-secondary:            #F3F3F5;
+  --color-secondary-foreground: #0A0A0A;
+
+  --color-muted:                #F3F3F5;
+  --color-muted-foreground:     #6B6B6B;
+
+  --color-neutral:              #9C9C9C;
+
+  --color-border:               #E8E8EC;
+  --color-ring:                 #6366F1;
+
+  /* Semantic colors */
+  --color-success:              #10B981;
+  --color-success-foreground:   #FFFFFF;
+  --color-warning:              #F59E0B;
+  --color-warning-foreground:   #FFFFFF;
+  --color-error:                #EF4444;
+  --color-error-foreground:     #FFFFFF;
 }
 
 @layer base {
   :root {
-    --background:           var(--color-background);
-    --foreground:           var(--color-foreground);
-    --primary:              var(--color-primary);
-    --primary-foreground:   var(--color-primary-foreground);
-    --secondary:            var(--color-secondary);
-    --secondary-foreground: var(--color-secondary-foreground);
-    --muted:                var(--color-muted);
-    --muted-foreground:     var(--color-muted-foreground);
-    --border:               var(--color-border);
-    --ring:                 var(--color-ring);
+    --background:            var(--color-background);
+    --foreground:            var(--color-foreground);
+    --surface:               var(--color-surface);
+    --primary:               var(--color-primary);
+    --primary-hover:         var(--color-primary-hover);
+    --primary-foreground:    var(--color-primary-foreground);
+    --secondary:             var(--color-secondary);
+    --secondary-foreground:  var(--color-secondary-foreground);
+    --muted:                 var(--color-muted);
+    --muted-foreground:      var(--color-muted-foreground);
+    --neutral:               var(--color-neutral);
+    --border:                var(--color-border);
+    --ring:                  var(--color-ring);
+    --success:               var(--color-success);
+    --success-foreground:    var(--color-success-foreground);
+    --warning:               var(--color-warning);
+    --warning-foreground:    var(--color-warning-foreground);
+    --error:                 var(--color-error);
+    --error-foreground:      var(--color-error-foreground);
   }
 
   .dark {
-    --background:           hsl(222.2 84% 4.9%);
-    --foreground:           hsl(210 40% 98%);
-    --primary:              hsl(217.2 91.2% 59.8%);
-    --primary-foreground:   hsl(222.2 47.4% 11.2%);
-    --secondary:            hsl(217.2 32.6% 17.5%);
-    --secondary-foreground: hsl(210 40% 98%);
-    --muted:                hsl(217.2 32.6% 17.5%);
-    --muted-foreground:     hsl(215 20.2% 65.1%);
-    --border:               hsl(217.2 32.6% 17.5%);
-    --ring:                 hsl(224.3 76.3% 48%);
+    --background:            #0F0F11;
+    --foreground:            #F0F0F2;
+    --surface:               #1A1A1E;
+    --primary:               #818CF8;
+    --primary-hover:         #6366F1;
+    --primary-foreground:    #FFFFFF;
+    --secondary:             #1E1E24;
+    --secondary-foreground:  #E0E0E6;
+    --muted:                 #1E1E24;
+    --muted-foreground:      #9C9C9C;
+    --neutral:               #6B6B6B;
+    --border:                #2A2A32;
+    --ring:                  #6366F1;
+    --success:               #059669;
+    --success-foreground:    #FFFFFF;
+    --warning:               #D97706;
+    --warning-foreground:    #FFFFFF;
+    --error:                 #DC2626;
+    --error-foreground:      #FFFFFF;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  code, pre, kbd, samp {
+    font-family: var(--font-mono);
   }
 }

@@ -2,7 +2,7 @@
     <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
         <a href="/" class="flex items-center gap-2.5">
             <img src="{{ asset('images/monifas-icon-only.svg') }}" alt="MONIFAS" class="h-7 w-7" />
-            <span class="text-sm font-bold tracking-tight text-foreground" style="letter-spacing: -0.02em;">MONIFAS</span>
+            <span class="font-display text-sm font-bold text-foreground" style="letter-spacing: -0.03em;">MONIFAS</span>
         </a>
         <nav class="hidden items-center gap-6 md:flex">
             <a href="#cakupan" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Fasilitas</a>
