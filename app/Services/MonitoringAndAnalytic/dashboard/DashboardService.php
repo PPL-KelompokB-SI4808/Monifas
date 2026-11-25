@@ -6,7 +6,10 @@ use App\Enums\AssignmentStatus;
 use App\Enums\FacilityCondition;
 use App\Enums\ReportStatus;
 use App\Models\Assignment;
+use App\Models\Building;
 use App\Models\Facility;
+use App\Models\Location;
+use App\Models\MaintenanceOfficer;
 use App\Models\Report;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -59,6 +62,28 @@ class DashboardService
             'kpi' => $this->getKpiSummary($filters),
             'trends' => $this->getReportTrends($filters),
             'technician_performance' => $this->getTechnicianPerformance($filters),
+        ];
+    }
+
+    /**
+     * Retrieve dropdown options for dashboard operational filters.
+     *
+     * @return array{
+     *     locations: Collection<int, Location>,
+     *     buildings: Collection<int, Building>,
+     *     facilities: Collection<int, Facility>,
+     *     officers: Collection<int, MaintenanceOfficer>,
+     *     statuses: array<int, ReportStatus>
+     * }
+     */
+    public function getFilterOptions(): array
+    {
+        return [
+            'locations' => Location::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
+            'buildings' => Building::query()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'location_id']),
+            'facilities' => Facility::query()->orderBy('name')->get(['id', 'name', 'building_id']),
+            'officers' => MaintenanceOfficer::query()->with('user:id,name')->where('is_active', true)->get(['id', 'user_id', 'employee_code']),
+            'statuses' => ReportStatus::cases(),
         ];
     }
 
