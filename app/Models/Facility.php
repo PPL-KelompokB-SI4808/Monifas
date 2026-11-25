@@ -27,21 +27,33 @@ class Facility extends Model
         'condition' => FacilityCondition::class,
     ];
 
+    /**
+     * @return BelongsTo<Location, $this>
+     */
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }
 
+    /**
+     * @return BelongsTo<Building, $this>
+     */
     public function building(): BelongsTo
     {
         return $this->belongsTo(Building::class);
     }
 
+    /**
+     * @return BelongsTo<Room, $this>
+     */
     public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class);
     }
 
+    /**
+     * @return BelongsTo<FacilityCategory, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(FacilityCategory::class, 'facility_category_id');
