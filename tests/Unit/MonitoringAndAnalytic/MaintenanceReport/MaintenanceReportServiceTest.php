@@ -174,3 +174,41 @@ it('streams a utf-8 bom csv export of maintenance history', function (): void {
         ->and($content)->toContain('Pembersihan evaporator')
         ->and($content)->toContain('150000.00');
 });
+
+it('returns combined report data, printable data, and active filter options', function (): void {
+    createRepairWithMaterial([
+        'material' => ['subtotal' => 300000],
+    ]);
+
+    $service = new MaintenanceReportService;
+
+    $reportData = $service->getReportData();
+    expect($reportData)->toHaveKeys([
+        'history',
+        'summary',
+        'damage_frequency',
+        'cost_analysis',
+        'preventive_vs_reactive',
+    ]);
+
+    $printable = $service->getPrintableData();
+    expect($printable)->toHaveKeys([
+        'records',
+        'summary',
+        'damage_frequency',
+        'cost_analysis',
+        'preventive_vs_reactive',
+        'generated_at',
+    ])->and($printable['records'])->toHaveCount(1);
+
+    $options = $service->getFilterOptions();
+    expect($options)->toHaveKeys([
+        'locations',
+        'buildings',
+        'facilities',
+        'facility_categories',
+        'damage_categories',
+        'officers',
+        'statuses',
+    ]);
+});
