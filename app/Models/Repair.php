@@ -3,11 +3,25 @@
 namespace App\Models;
 
 use App\Enums\RepairExecutionStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property int $id
+ * @property int $assignment_id
+ * @property int|null $report_id
+ * @property int $facility_id
+ * @property int $officer_id
+ * @property Carbon $started_at
+ * @property Carbon|null $ended_at
+ * @property string $technical_action
+ * @property string|null $repair_result
+ * @property string $resulting_facility_condition
+ * @property RepairExecutionStatus $status
+ */
 class Repair extends Model
 {
     protected $fillable = [
@@ -32,26 +46,41 @@ class Repair extends Model
         ];
     }
 
+    /**
+     * @return BelongsTo<Assignment, $this>
+     */
     public function assignment(): BelongsTo
     {
         return $this->belongsTo(Assignment::class);
     }
 
+    /**
+     * @return BelongsTo<Report, $this>
+     */
     public function report(): BelongsTo
     {
         return $this->belongsTo(Report::class);
     }
 
+    /**
+     * @return BelongsTo<Facility, $this>
+     */
     public function facility(): BelongsTo
     {
         return $this->belongsTo(Facility::class);
     }
 
+    /**
+     * @return BelongsTo<MaintenanceOfficer, $this>
+     */
     public function officer(): BelongsTo
     {
         return $this->belongsTo(MaintenanceOfficer::class, 'officer_id');
     }
 
+    /**
+     * @return HasMany<RepairMaterial, $this>
+     */
     public function materials(): HasMany
     {
         return $this->hasMany(RepairMaterial::class);
