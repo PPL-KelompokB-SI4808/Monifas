@@ -1,11 +1,20 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-uses(TestCase::class);
+uses(TestCase::class, RefreshDatabase::class);
 
 it('renders the maintenance report page with dummy analytics data', function (): void {
-    $response = $this->withoutVite()->get('/dashboard/monitoring-and-analytic/maintenance-report');
+    $role = Role::factory()->create(['slug' => UserRole::Admin->value, 'name' => UserRole::Admin->label()]);
+    $user = User::factory()->create(['role_id' => $role->id]);
+
+    $response = $this->withoutVite()
+        ->actingAs($user)
+        ->get(route('monitoring-and-analytic.maintenance-report.index'));
 
     $response->assertStatus(200);
     $response->assertSee('Laporan & Analisis Pemeliharaan', false);
