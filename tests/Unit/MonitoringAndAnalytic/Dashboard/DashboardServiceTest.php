@@ -186,3 +186,23 @@ it('calculates technician task completion performance metrics', function (): voi
         ->and($performance['technicians'][0]['completion_rate'])->toBe(50.0)
         ->and($performance['technicians'][0]['avg_resolution_hours'])->toBe(4.0);
 });
+
+it('returns combined dashboard data and active filter options', function (): void {
+    $location = Location::factory()->create(['is_active' => true]);
+    $building = Building::factory()->create(['location_id' => $location->id, 'is_active' => true]);
+    Facility::factory()->create(['location_id' => $location->id, 'building_id' => $building->id]);
+    MaintenanceOfficer::factory()->create(['is_active' => true]);
+
+    $service = new DashboardService;
+
+    $data = $service->getDashboardData();
+    expect($data)->toHaveKeys(['kpi', 'trends', 'technician_performance']);
+
+    $options = $service->getFilterOptions();
+    expect($options)->toHaveKeys(['locations', 'buildings', 'facilities', 'officers', 'statuses'])
+        ->and($options['locations'])->toHaveCount(1)
+        ->and($options['buildings'])->toHaveCount(1)
+        ->and($options['facilities'])->toHaveCount(1)
+        ->and($options['officers'])->toHaveCount(1)
+        ->and($options['statuses'])->toBe(ReportStatus::cases());
+});
